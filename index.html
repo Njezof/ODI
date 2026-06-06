@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ODI — Orion Defense Industries | Royaume de Black Reef</title>
+  <meta name="description" content="Orion Defense Industries – Industrie nationale de l'armement et des systèmes stratégiques du Royaume de Black Reef. Blindés, Naval, Nucléaire." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Share+Tech+Mono&family=Chakra+Petch:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --black:       #030405;
+      --dark:        #080d0a;
+      --army:        #0f1a0d;
+      --green-deep:  #132010;
+      --green-mid:   #1c3318;
+      --green-bright:#2d6e20;
+      --green-glow:  #3d9a28;
+      --lime:        #7ec850;
+      --amber:       #d4801a;
+      --amber-glow:  #f09030;
+      --steel:       #8a9e80;
+      --silver:      #b0c0a0;
+      --white:       #e8ede0;
+      --red:         #c02828;
+      --red-dim:     #801818;
+      --gold:        #c8a020;
+
+      --font-display: 'Chakra Petch', sans-serif;
+      --font-mono:    'Share Tech Mono', monospace;
+      --font-body:    'Exo 2', sans-serif;
+
+      --nav-h: 74px;
+      --section-pad: 100px 0;
+      --transition: all .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--green-bright); border-radius: 3px; }
+    ::selection { background: var(--green-bright); color: #fff; }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .section-pad { padding: var(--section-pad); }
+    .text-center { text-align: center; }
+
+    .label {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--lime);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--white);
+    }
+    .section-title span { color: var(--amber); }
+
+    .section-subtitle {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      color: var(--steel);
+      max-width: 640px;
+      margin: 16px auto 0;
+    }
+
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--amber), var(--green-bright));
+      margin: 20px auto;
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
+      font-size: .85rem; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase;
+      text-decoration: none; padding: 14px 32px;
+      border: none; cursor: pointer;
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.05));
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--amber), #a05010);
+      color: #fff;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--amber-glow), var(--amber));
+      box-shadow: 0 0 30px rgba(212,128,26,.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--lime);
+      border: 1px solid var(--green-bright);
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .btn-outline:hover {
+      background: rgba(45,110,32,.12);
+      box-shadow: 0 0 20px rgba(45,110,32,.35);
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, var(--red), var(--red-dim));
+      color: #fff;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .btn-danger:hover {
+      box-shadow: 0 0 24px rgba(192,40,40,.5);
+      transform: translateY(-2px);
+    }
+
+    /* ─── GRID ─── */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: linear-gradient(135deg, rgba(15,26,13,.85), rgba(8,13,10,.95));
+      border: 1px solid rgba(45,110,32,.2);
+      padding: 32px;
+      position: relative;
+      transition: var(--transition);
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .card:hover {
+      border-color: rgba(212,128,26,.45);
+      box-shadow: 0 8px 40px rgba(0,0,0,.6), 0 0 18px rgba(212,128,26,.1);
+      transform: translateY(-4px);
+    }
+    .card:hover::before { opacity: 1; }
+
+    /* ─── PAGES ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── REVEALS ─── */
+    .reveal {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+    .reveal-delay-5 { transition-delay: .5s; }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: var(--nav-h);
+      background: rgba(3,4,5,.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(45,110,32,.2);
+      display: flex; align-items: center;
+      transition: var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(3,4,5,.98);
+      border-bottom-color: rgba(212,128,26,.35);
+      box-shadow: 0 4px 30px rgba(0,0,0,.7);
+    }
+
+    .nav-inner {
+      display: flex; align-items: center;
+      width: 100%; max-width: 1400px;
+      margin: 0 auto; padding: 0 40px;
+      gap: 36px;
+    }
+
+    /* LOGO */
+    .nav-logo {
+      display: flex; align-items: center; gap: 14px;
+      cursor: pointer; flex-shrink: 0; text-decoration: none;
+    }
+
+    .logo-emblem {
+      width: 48px; height: 48px;
+    }
+    .logo-emblem svg { width: 100%; height: 100%; }
+
+    .logo-text .odi-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem; font-weight: 700;
+      letter-spacing: .14em; color: var(--white); line-height: 1;
+    }
+    .logo-text .odi-full {
+      font-family: var(--font-mono);
+      font-size: .58rem; letter-spacing: .2em;
+      color: var(--amber); text-transform: uppercase;
+    }
+
+    /* NAV MENU */
+    .nav-menu {
+      display: flex; align-items: center;
+      gap: 2px; list-style: none; flex: 1;
+    }
+
+    .nav-item { position: relative; }
+
+    .nav-link {
+      display: flex; align-items: center; gap: 5px;
+      font-family: var(--font-display);
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--steel);
+      padding: 10px 14px; cursor: pointer;
+      transition: var(--transition);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--white);
+      border-bottom-color: var(--amber);
+    }
+    .nav-link .chevron { width: 10px; height: 10px; transition: transform .3s; }
+    .nav-item:hover .chevron { transform: rotate(180deg); }
+
+    /* DROPDOWN */
+    .dropdown {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      background: rgba(8,13,10,.97);
+      border: 1px solid rgba(212,128,26,.25);
+      min-width: 240px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(-10px);
+      transition: var(--transition);
+      z-index: 100;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+    }
+    .nav-item:hover .dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+    .dropdown a {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono);
+      font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--steel); padding: 12px 20px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(45,110,32,.08);
+      transition: var(--transition); cursor: pointer;
+    }
+    .dropdown a:last-child { border-bottom: none; }
+    .dropdown a:hover {
+      color: var(--amber-glow);
+      background: rgba(212,128,26,.06);
+      padding-left: 28px;
+    }
+    .dropdown a::before { content: '▸'; color: var(--amber); opacity: 0; transition: opacity .2s; }
+    .dropdown a:hover::before { opacity: 1; }
+
+    /* NAV RIGHT */
+    .nav-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+
+    .search-wrap {
+      display: flex; align-items: center;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(45,110,32,.2);
+      padding: 8px 14px; gap: 8px;
+      transition: var(--transition);
+    }
+    .search-wrap:focus-within {
+      border-color: var(--amber);
+      box-shadow: 0 0 10px rgba(212,128,26,.2);
+    }
+    .search-wrap input {
+      background: none; border: none; outline: none;
+      font-family: var(--font-mono); font-size: .78rem;
+      color: var(--white); width: 150px;
+    }
+    .search-wrap input::placeholder { color: var(--steel); }
+    .search-wrap svg { color: var(--steel); width: 14px; height: 14px; }
+
+    .toggle-btn {
+      width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(45,110,32,.2);
+      cursor: pointer; transition: var(--transition); color: var(--steel);
+    }
+    .toggle-btn:hover { border-color: var(--amber); color: var(--amber-glow); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: var(--transition); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden; background: var(--black);
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 60% 40%, rgba(212,128,26,.1) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 60% at 15% 65%, rgba(45,110,32,.07) 0%, transparent 55%),
+        linear-gradient(160deg, var(--black) 0%, var(--dark) 50%, var(--army) 100%);
+    }
+
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(45,110,32,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(45,110,32,.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.7) 25%, rgba(0,0,0,.4) 80%, transparent 100%);
+    }
+
+    /* RADAR EFFECT */
+    .hero-radar {
+      position: absolute; right: 8%; top: 50%;
+      transform: translateY(-50%);
+      width: 420px; height: 420px;
+      opacity: .12;
+    }
+    .radar-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid var(--green-bright);
+    }
+    .radar-ring:nth-child(1) { inset: 0; }
+    .radar-ring:nth-child(2) { inset: 15%; }
+    .radar-ring:nth-child(3) { inset: 30%; }
+    .radar-ring:nth-child(4) { inset: 45%; }
+    .radar-crosshair-h {
+      position: absolute; left: 0; right: 0; top: 50%;
+      height: 1px; background: var(--green-bright);
+    }
+    .radar-crosshair-v {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 1px; background: var(--green-bright);
+    }
+    .radar-sweep {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 70%, rgba(45,110,32,.4) 100%);
+      animation: radarSpin 4s linear infinite;
+    }
+    .radar-blip {
+      position: absolute; border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 6px var(--lime);
+    }
+    .radar-blip:nth-child(1) { width: 6px; height: 6px; left: 62%; top: 28%; }
+    .radar-blip:nth-child(2) { width: 4px; height: 4px; left: 35%; top: 55%; }
+    .radar-blip:nth-child(3) { width: 5px; height: 5px; left: 70%; top: 62%; }
+    @keyframes radarSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 40px; padding-top: var(--nav-h);
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono);
+      font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--lime);
+      border: 1px solid rgba(126,200,80,.3);
+      padding: 8px 20px;
+      margin-bottom: 28px;
+      animation: fadeInUp .8s both;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--lime); border-radius: 50%;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%,100%{opacity:1;transform:scale(1);}
+      50%{opacity:.3;transform:scale(1.6);}
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 8vw, 7rem);
+      font-weight: 800;
+      letter-spacing: .04em; text-transform: uppercase;
+      line-height: .92;
+      animation: fadeInUp .8s .15s both;
+    }
+    .hero-title .line1 { display: block; color: var(--white); }
+    .hero-title .line2 {
+      display: block;
+      background: linear-gradient(135deg, var(--amber), var(--amber-glow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-title .line3 {
+      display: block;
+      color: rgba(232,237,224,.25);
+      font-size: .55em; letter-spacing: .2em; margin-top: 8px;
+    }
+
+    .hero-motto {
+      font-family: var(--font-mono);
+      font-size: .95rem; letter-spacing: .18em;
+      color: var(--gold); text-transform: uppercase;
+      margin: 24px 0;
+      animation: fadeInUp .8s .25s both;
+    }
+    .hero-motto::before,.hero-motto::after {
+      content: '—'; margin: 0 12px; opacity: .4;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem; color: var(--steel);
+      max-width: 540px; line-height: 1.8;
+      margin-bottom: 36px;
+      animation: fadeInUp .8s .35s both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      animation: fadeInUp .8s .45s both;
+    }
+
+    .hero-stats {
+      display: flex; gap: 48px; flex-wrap: wrap;
+      margin-top: 70px; padding-top: 36px;
+      border-top: 1px solid rgba(212,128,26,.2);
+      animation: fadeInUp .8s .55s both;
+    }
+    .hero-stat {}
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--amber);
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: .68rem; letter-spacing: .18em;
+      color: var(--steel); text-transform: uppercase;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       TICKER
+    ============================================================ */
+    .ticker-bar {
+      background: rgba(212,128,26,.07);
+      border-top: 1px solid rgba(212,128,26,.2);
+      border-bottom: 1px solid rgba(45,110,32,.2);
+      padding: 10px 0; overflow: hidden;
+    }
+    .ticker-inner {
+      display: flex; align-items: center;
+      animation: ticker 45s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 20px;
+      font-family: var(--font-mono);
+      font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--steel); padding: 0 40px;
+    }
+    .ticker-dot { width: 4px; height: 4px; background: var(--amber); border-radius: 50%; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ============================================================
+       PAGE HERO (shared)
+    ============================================================ */
+    .page-hero {
+      background: linear-gradient(150deg, var(--dark), var(--army));
+      padding: 140px 0 80px;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(45,110,32,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(45,110,32,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute; right: 0; top: 0; bottom: 0; width: 40%;
+      background: linear-gradient(90deg, transparent, rgba(212,128,26,.04));
+    }
+    .page-hero .container { position: relative; z-index: 1; }
+
+    /* Section header */
+    .section-header { margin-bottom: 60px; }
+
+    /* ============================================================
+       CLASSIFICATION BANNER
+    ============================================================ */
+    .class-banner {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono);
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+    }
+    .class-secret   { color: var(--red);  border: 1px solid rgba(192,40,40,.4);  background: rgba(192,40,40,.07);  padding: 5px 14px; }
+    .class-conf     { color: var(--amber); border: 1px solid rgba(212,128,26,.4); background: rgba(212,128,26,.07); padding: 5px 14px; }
+    .class-restrict { color: var(--lime);  border: 1px solid rgba(126,200,80,.3);  background: rgba(126,200,80,.05); padding: 5px 14px; }
+
+    /* ============================================================
+       DIVISION CARDS (Home)
+    ============================================================ */
+    .div-card {
+      background: linear-gradient(135deg, rgba(15,26,13,.9), rgba(8,13,10,.95));
+      border: 1px solid rgba(45,110,32,.15);
+      overflow: hidden; position: relative;
+      transition: var(--transition); cursor: pointer;
+    }
+    .div-card:hover {
+      border-color: rgba(212,128,26,.5);
+      box-shadow: 0 10px 40px rgba(0,0,0,.6), 0 0 20px rgba(212,128,26,.12);
+      transform: translateY(-5px);
+    }
+
+    .div-card-header {
+      padding: 28px 28px 20px;
+      border-bottom: 1px solid rgba(45,110,32,.1);
+      display: flex; align-items: flex-start; justify-content: space-between;
+    }
+    .div-icon { font-size: 2.2rem; }
+
+    .div-card-body { padding: 20px 28px 28px; }
+    .div-card-body h3 {
+      font-family: var(--font-display);
+      font-size: 1rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--white); margin-bottom: 10px;
+    }
+    .div-card-body p { font-size: .85rem; color: var(--steel); margin-bottom: 16px; }
+
+    .div-link {
+      font-family: var(--font-mono);
+      font-size: .68rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    /* ============================================================
+       ARMORED VEHICLES
+    ============================================================ */
+    .vehicle-card {
+      background: linear-gradient(135deg, rgba(15,26,13,.9), rgba(8,13,10,.95));
+      border: 1px solid rgba(45,110,32,.15);
+      overflow: hidden; transition: var(--transition);
+    }
+    .vehicle-card:hover {
+      border-color: rgba(212,128,26,.4);
+      box-shadow: 0 8px 30px rgba(0,0,0,.5), 0 0 16px rgba(212,128,26,.1);
+      transform: translateY(-4px);
+    }
+    .vehicle-visual {
+      height: 120px;
+      background: linear-gradient(135deg, rgba(28,51,24,.6), rgba(15,26,13,.9));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+      border-bottom: 1px solid rgba(45,110,32,.1);
+      position: relative;
+    }
+    .vehicle-visual::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent, rgba(212,128,26,.04));
+    }
+    .vehicle-body { padding: 20px; }
+    .vehicle-body h4 {
+      font-family: var(--font-display);
+      font-size: .9rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .vehicle-body p { font-size: .82rem; color: var(--steel); margin-bottom: 12px; }
+    .vehicle-spec {
+      font-family: var(--font-mono);
+      font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--lime); background: rgba(126,200,80,.06);
+      border: 1px solid rgba(126,200,80,.15); padding: 4px 10px;
+      display: inline-block; margin-top: 4px;
+    }
+
+    /* ============================================================
+       NAVAL
+    ============================================================ */
+    .ship-card {
+      position: relative; overflow: hidden;
+      background: linear-gradient(180deg, rgba(8,20,32,.9), rgba(5,10,20,.95));
+      border: 1px solid rgba(45,110,32,.15);
+      transition: var(--transition);
+    }
+    .ship-card:hover {
+      border-color: rgba(212,128,26,.45);
+      box-shadow: 0 0 28px rgba(212,128,26,.12);
+      transform: translateY(-4px);
+    }
+    .ship-top {
+      height: 160px;
+      background: linear-gradient(180deg, rgba(8,20,40,.9), rgba(5,15,30,.8));
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      border-bottom: 1px solid rgba(45,110,32,.15);
+      position: relative;
+    }
+    .ship-icon { font-size: 3.2rem; }
+    .ship-class {
+      font-family: var(--font-mono);
+      font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--lime); background: rgba(126,200,80,.08);
+      border: 1px solid rgba(126,200,80,.2); padding: 4px 12px;
+    }
+    .ship-body { padding: 20px 24px; }
+    .ship-body h4 {
+      font-family: var(--font-display);
+      font-size: .95rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .ship-body p { font-size: .82rem; color: var(--steel); margin-bottom: 14px; }
+    .ship-specs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; border-top: 1px solid rgba(45,110,32,.1); padding-top: 14px;
+    }
+    .sspec { display: flex; flex-direction: column; }
+    .sspec-key { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--steel); }
+    .sspec-val { font-family: var(--font-display); font-size: .82rem; font-weight: 600; color: var(--amber); }
+
+    /* ============================================================
+       NUCLEAR SECTION
+    ============================================================ */
+    .nuclear-section {
+      background: linear-gradient(135deg, #080303, #100a04);
+      border-top: 2px solid rgba(192,40,40,.4);
+      border-bottom: 2px solid rgba(192,40,40,.4);
+      position: relative; overflow: hidden;
+    }
+    .nuclear-section::before {
+      content: '☢';
+      position: absolute; right: -30px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 22rem; opacity: .02;
+      color: var(--red);
+    }
+
+    .nuclear-header {
+      display: flex; align-items: center; gap: 20px;
+      margin-bottom: 40px;
+    }
+    .nuclear-icon-big {
+      width: 72px; height: 72px;
+      background: rgba(192,40,40,.1);
+      border: 2px solid rgba(192,40,40,.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      animation: nuclearPulse 3s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes nuclearPulse {
+      0%,100%{box-shadow:0 0 0 0 rgba(192,40,40,.3);}
+      50%{box-shadow:0 0 0 12px rgba(192,40,40,0);}
+    }
+
+    .nuclear-header-text h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: var(--red);
+    }
+    .nuclear-header-text p {
+      font-family: var(--font-mono);
+      font-size: .75rem; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(192,40,40,.6);
+    }
+
+    .nuclear-missions {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px; margin-bottom: 40px;
+    }
+    .nuclear-mission {
+      background: rgba(192,40,40,.05);
+      border: 1px solid rgba(192,40,40,.15);
+      padding: 24px;
+      transition: var(--transition);
+    }
+    .nuclear-mission:hover {
+      background: rgba(192,40,40,.08);
+      border-color: rgba(192,40,40,.3);
+    }
+    .nuclear-mission h4 {
+      font-family: var(--font-display);
+      font-size: .85rem; font-weight: 600;
+      text-transform: uppercase; color: #e06060; margin-bottom: 8px;
+    }
+    .nuclear-mission p { font-size: .82rem; color: rgba(138,158,128,.7); }
+
+    .nuclear-classified {
+      background: rgba(192,40,40,.06);
+      border: 1px solid rgba(192,40,40,.2);
+      padding: 20px 24px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .nuclear-classified p {
+      font-family: var(--font-mono);
+      font-size: .72rem; letter-spacing: .12em;
+      color: rgba(192,40,40,.7);
+    }
+
+    /* ============================================================
+       ARMAMENT
+    ============================================================ */
+    .weapon-card {
+      background: linear-gradient(135deg, rgba(15,26,13,.8), rgba(8,13,10,.95));
+      border: 1px solid rgba(45,110,32,.12);
+      padding: 28px; transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .weapon-card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: linear-gradient(180deg, var(--amber), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .weapon-card:hover {
+      border-color: rgba(212,128,26,.35);
+      box-shadow: 0 6px 24px rgba(0,0,0,.5);
+      transform: translateX(4px);
+    }
+    .weapon-card:hover::before { opacity: 1; }
+    .weapon-card h4 {
+      font-family: var(--font-display);
+      font-size: .9rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .weapon-card p { font-size: .82rem; color: var(--steel); }
+    .weapon-icon { font-size: 1.8rem; margin-bottom: 14px; }
+
+    /* ============================================================
+       R&D
+    ============================================================ */
+    .rd-card {
+      background: linear-gradient(135deg, rgba(15,26,13,.8), rgba(8,13,10,.95));
+      border: 1px solid rgba(45,110,32,.12);
+      overflow: hidden; transition: var(--transition);
+    }
+    .rd-card:hover {
+      border-color: rgba(212,128,26,.4);
+      box-shadow: 0 8px 30px rgba(0,0,0,.5);
+      transform: translateY(-4px);
+    }
+    .rd-header {
+      background: linear-gradient(135deg, rgba(45,110,32,.1), rgba(212,128,26,.04));
+      padding: 24px; border-bottom: 1px solid rgba(45,110,32,.1);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .rd-icon { font-size: 1.8rem; }
+    .rd-header h4 {
+      font-family: var(--font-display);
+      font-size: .9rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em; color: var(--white);
+    }
+    .rd-body { padding: 24px; }
+    .rd-body p { font-size: .85rem; color: var(--steel); margin-bottom: 16px; }
+    .progress-bar { position: relative; height: 3px; background: rgba(45,110,32,.1); margin-top: 16px; }
+    .progress-fill { position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, var(--amber), var(--green-bright)); transition: width 1.5s ease; }
+    .progress-label { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: .65rem; color: var(--steel); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+
+    /* ============================================================
+       ABOUT PAGE
+    ============================================================ */
+    .org-level {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0;
+    }
+    .org-node {
+      background: linear-gradient(135deg, rgba(15,26,13,.9), rgba(8,13,10,.95));
+      border: 1px solid rgba(45,110,32,.2);
+      padding: 20px 40px; text-align: center;
+      position: relative; transition: var(--transition);
+      min-width: 260px;
+    }
+    .org-node:hover {
+      border-color: rgba(212,128,26,.4);
+      box-shadow: 0 0 20px rgba(212,128,26,.1);
+    }
+    .org-node h4 {
+      font-family: var(--font-display);
+      font-size: .85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .1em; color: var(--white);
+    }
+    .org-node p { font-family: var(--font-mono); font-size: .68rem; color: var(--steel); text-transform: uppercase; }
+    .org-line {
+      width: 2px; height: 32px;
+      background: linear-gradient(180deg, var(--amber), var(--green-bright));
+    }
+    .org-row {
+      display: flex; gap: 24px; align-items: flex-start;
+    }
+    .org-h-line {
+      flex: 1; height: 2px; margin-top: 30px;
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    }
+
+    /* VALUE CARDS */
+    .value-card {
+      text-align: center; padding: 36px 24px;
+    }
+    .value-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, rgba(15,26,13,.9), rgba(8,13,10,.95));
+      border: 1px solid rgba(212,128,26,.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px; font-size: 1.6rem;
+    }
+    .value-card h4 {
+      font-family: var(--font-display);
+      font-size: .85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: var(--white); margin-bottom: 10px;
+    }
+    .value-card p { font-size: .88rem; color: var(--steel); }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start; }
+    .contact-info-item {
+      display: flex; gap: 18px; padding: 22px 0;
+      border-bottom: 1px solid rgba(45,110,32,.1);
+    }
+    .contact-info-item:last-child { border-bottom: none; }
+    .contact-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      background: rgba(45,110,32,.08);
+      border: 1px solid rgba(45,110,32,.2);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .contact-info-item h4 {
+      font-family: var(--font-mono);
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--lime); margin-bottom: 6px;
+    }
+    .contact-info-item p { font-size: .88rem; color: var(--steel); }
+
+    .contact-form {
+      background: rgba(15,26,13,.5);
+      border: 1px solid rgba(45,110,32,.15); padding: 40px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--lime); margin-bottom: 8px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; background: rgba(255,255,255,.03);
+      border: 1px solid rgba(45,110,32,.2);
+      color: var(--white); font-family: var(--font-body); font-size: .9rem;
+      padding: 12px 16px; outline: none; transition: var(--transition);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--amber);
+      background: rgba(212,128,26,.04);
+      box-shadow: 0 0 10px rgba(212,128,26,.12);
+    }
+    .form-group textarea { min-height: 110px; resize: vertical; }
+    .form-group select option { background: var(--army); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: rgba(3,4,5,.98);
+      border-top: 1px solid rgba(212,128,26,.15);
+      padding: 80px 0 0;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px; margin-bottom: 60px;
+    }
+    .footer-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 800;
+      letter-spacing: .12em; color: var(--white); margin-bottom: 4px;
+    }
+    .footer-about { font-size: .87rem; color: var(--steel); margin: 14px 0 20px; }
+    .footer-col h5 {
+      font-family: var(--font-mono);
+      font-size: .68rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li {
+      font-size: .84rem; color: var(--steel);
+      padding: 6px 0; cursor: pointer; transition: color .2s;
+    }
+    .footer-col ul li:hover { color: var(--white); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(45,110,32,.08);
+      padding: 24px 0;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;
+    }
+    .footer-bottom p {
+      font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; color: var(--steel);
+    }
+    .footer-bottom .classified {
+      font-family: var(--font-mono); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--red); border: 1px solid rgba(192,40,40,.3); padding: 4px 12px;
+    }
+
+    /* ============================================================
+       BACK TO TOP
+    ============================================================ */
+    #back-top {
+      position: fixed; bottom: 32px; right: 32px;
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--amber), #a05010);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; opacity: 0; pointer-events: none;
+      transition: var(--transition); z-index: 500;
+      clip-path: polygon(0 12px, 12px 0, 100% 0, 100% 100%, 0 100%);
+    }
+    #back-top.visible { opacity: 1; pointer-events: auto; }
+    #back-top:hover { box-shadow: 0 0 20px rgba(212,128,26,.5); transform: translateY(-3px); }
+    #back-top svg { color: #fff; }
+
+    /* ============================================================
+       PRESENCE STATS
+    ============================================================ */
+    .presence-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 48px; }
+    .presence-stat { background: rgba(8,13,10,.85); padding: 32px; text-align: center; }
+    .presence-stat .n { font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; color: var(--amber); }
+    .presence-stat .u { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--steel); margin-top: 6px; }
+
+    /* ============================================================
+       MOBILE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .nav-menu { display: none; }
+      .hamburger { display: flex; }
+      .nav-menu.open {
+        display: flex; flex-direction: column;
+        position: fixed; top: var(--nav-h); left: 0; right: 0;
+        background: rgba(3,4,5,.98);
+        border-top: 1px solid rgba(45,110,32,.2);
+        padding: 20px; max-height: calc(100vh - var(--nav-h));
+        overflow-y: auto; z-index: 999;
+      }
+      .dropdown { display: none; }
+      .hero-radar { display: none; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .nuclear-missions { grid-template-columns: 1fr; }
+      .presence-stats { grid-template-columns: 1fr 1fr; }
+      .search-wrap { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+
+      <!-- LOGO -->
+      <a class="nav-logo" onclick="showPage('home')">
+        <div class="logo-emblem">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer ring -->
+            <circle cx="24" cy="24" r="22" stroke="#d4801a" stroke-width="1.5" fill="rgba(212,128,26,0.06)"/>
+            <!-- Inner ring -->
+            <circle cx="24" cy="24" r="14" stroke="#2d6e20" stroke-width="1" fill="rgba(45,110,32,0.05)"/>
+            <!-- Orion belt / triangle -->
+            <polygon points="24,8 38,36 10,36" stroke="white" stroke-width="1.8" fill="none"/>
+            <!-- Center star -->
+            <circle cx="24" cy="24" r="3" fill="#d4801a"/>
+            <!-- Belt stars -->
+            <circle cx="18" cy="32" r="1.5" fill="#7ec850"/>
+            <circle cx="24" cy="32" r="1.5" fill="#7ec850"/>
+            <circle cx="30" cy="32" r="1.5" fill="#7ec850"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="odi-name">ODI</span>
+          <span class="odi-full">Orion Defense Industries</span>
+        </div>
+      </a>
+
+      <!-- MAIN MENU -->
+      <ul class="nav-menu" id="nav-menu">
+        <li class="nav-item">
+          <div class="nav-link active" onclick="showPage('home')">Accueil</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" onclick="showPage('about')">
+            À propos
+            <svg class="chevron" viewBox="0 0 10 10" fill="currentColor"><path d="M2 3l3 4 3-4"/></svg>
+          </div>
+          <div class="dropdown">
+            <a onclick="showPage('about')">Présentation ODI</a>
+            <a onclick="showPage('about')">Histoire & Valeurs</a>
+            <a onclick="showPage('about')">Organisation</a>
+            <a onclick="showPage('about')">Gouvernance</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" onclick="showPage('armor')">
+            Blindés
+            <svg class="chevron" viewBox="0 0 10 10" fill="currentColor"><path d="M2 3l3 4 3-4"/></svg>
+          </div>
+          <div class="dropdown">
+            <a onclick="showPage('armor')">Transport Multi-Rôles</a>
+            <a onclick="showPage('armor')">Assaut Urbain</a>
+            <a onclick="showPage('armor')">Blindés Lourds</a>
+            <a onclick="showPage('armor')">Reconnaissance</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" onclick="showPage('naval')">Naval</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" onclick="showPage('armament')">Armement</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" onclick="showPage('nuclear')" style="color:rgba(192,40,40,.8)">
+            ☢ Stratégique
+            <svg class="chevron" viewBox="0 0 10 10" fill="currentColor"><path d="M2 3l3 4 3-4"/></svg>
+          </div>
+          <div class="dropdown">
+            <a onclick="showPage('nuclear')">Division Nucléaire</a>
+            <a onclick="showPage('nuclear')">Accès restreint</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" onclick="showPage('research')">R&amp;D</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" onclick="showPage('contact')">Contact</div>
+        </li>
+      </ul>
+
+      <!-- RIGHT -->
+      <div class="nav-right">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="Rechercher..." />
+        </div>
+        <button class="toggle-btn" onclick="toggleDark()" title="Mode">
+          <svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       PAGE: HOME
+  ============================================================ -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+
+      <!-- RADAR -->
+      <div class="hero-radar">
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-crosshair-h"></div>
+        <div class="radar-crosshair-v"></div>
+        <div class="radar-sweep"></div>
+        <div class="radar-blip"></div>
+        <div class="radar-blip"></div>
+        <div class="radar-blip"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-badge">Industrie nationale de l'armement — Fondée en 1964 — Royaume de Black Reef</div>
+
+        <h1 class="hero-title">
+          <span class="line1">Orion</span>
+          <span class="line2">Defense</span>
+          <span class="line3">Industries</span>
+        </h1>
+
+        <p class="hero-motto">La puissance maîtrisée, la sécurité absolue</p>
+
+        <p class="hero-desc">
+          Industrie nationale stratégique de l'armement du Royaume de Black Reef. Blindés, systèmes navals, armement de nouvelle génération et capacités de dissuasion nucléaire.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="showPage('about')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+            Découvrir ODI
+          </button>
+          <button class="btn btn-outline" onclick="showPage('naval')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 17 7-7 4 4 7-7"/></svg>
+            Division Navale
+          </button>
+          <button class="btn btn-danger" onclick="showPage('nuclear')">
+            ☢ Division Stratégique
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="stat-value">1964</div>
+            <div class="stat-label">Fondation</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value">4</div>
+            <div class="stat-label">Divisions majeures</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value">100<span style="font-size:.6em;color:var(--lime)">%</span></div>
+            <div class="stat-label">Propriété étatique</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value">TOP</div>
+            <div class="stat-label">Classification secrète</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker-bar">
+      <div class="ticker-inner">
+        <span class="ticker-item"><span class="ticker-dot"></span>ARMEMENT TERRESTRE</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DÉFENSE NAVALE</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>SYSTÈMES STRATÉGIQUES</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DISSUASION NUCLÉAIRE</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>RECHERCHE & DÉVELOPPEMENT</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>FONDÉE EN 1964</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>ROYAUME DE BLACK REEF</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>ARMEMENT TERRESTRE</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DÉFENSE NAVALE</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>SYSTÈMES STRATÉGIQUES</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DISSUASION NUCLÉAIRE</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>RECHERCHE & DÉVELOPPEMENT</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>FONDÉE EN 1964</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>ROYAUME DE BLACK REEF</span>
+      </div>
+    </div>
+
+    <!-- DIVISIONS -->
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">Domaines d'activité</div>
+          <h2 class="section-title">Nos <span>Divisions</span></h2>
+          <div class="divider"></div>
+          <p class="section-subtitle">ODI structure ses activités en quatre divisions industrielles majeures, chacune classifiée selon les standards de sécurité nationale.</p>
+        </div>
+
+        <div class="grid-2" style="gap:20px;">
+          <div class="div-card reveal reveal-delay-1" onclick="showPage('armor')">
+            <div class="div-card-header">
+              <div class="div-icon">🔰</div>
+              <div class="class-banner class-restrict">Diffusion restreinte</div>
+            </div>
+            <div class="div-card-body">
+              <h3>Division Véhicules Blindés</h3>
+              <p>Véhicules de transport multi-rôles, blindés lourds de percée, plateformes modulaires de combat. Architecture évolutive avec systèmes de défense actifs.</p>
+              <div class="div-link">Accéder à la division →</div>
+            </div>
+          </div>
+
+          <div class="div-card reveal reveal-delay-2" onclick="showPage('naval')">
+            <div class="div-card-header">
+              <div class="div-icon">⚓</div>
+              <div class="class-banner class-conf">Confidentiel</div>
+            </div>
+            <div class="div-card-body">
+              <h3>Division Navale Militaire</h3>
+              <p>Frégates, destroyers, sous-marins stratégiques et bâtiments de soutien. Réseau de combat numérique intégré en temps réel.</p>
+              <div class="div-link">Accéder à la division →</div>
+            </div>
+          </div>
+
+          <div class="div-card reveal reveal-delay-3" onclick="showPage('armament')">
+            <div class="div-card-header">
+              <div class="div-icon">🔫</div>
+              <div class="class-banner class-conf">Confidentiel</div>
+            </div>
+            <div class="div-card-body">
+              <h3>Division Armement Nouvelle Génération</h3>
+              <p>Systèmes d'armes modulaires, guidage intelligent, tir assisté par IA et plateformes d'armes automatisées.</p>
+              <div class="div-link">Accéder à la division →</div>
+            </div>
+          </div>
+
+          <div class="div-card reveal reveal-delay-4" onclick="showPage('nuclear')" style="border-color:rgba(192,40,40,.2);">
+            <div class="div-card-header">
+              <div class="div-icon">☢️</div>
+              <div class="class-banner class-secret">Secret défense</div>
+            </div>
+            <div class="div-card-body">
+              <h3>Division Stratégique Nucléaire</h3>
+              <p>Production, maintenance et sécurisation des capacités de dissuasion stratégique du Royaume. Accès réservé aux personnels hautement habilités.</p>
+              <div class="div-link" style="color:var(--red);">Accès restreint ☢</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHIFFRES -->
+    <section class="section-pad" style="background:linear-gradient(135deg,var(--dark),var(--army));">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">ODI en chiffres</div>
+          <h2 class="section-title">Puissance <span>Industrielle</span></h2>
+          <div class="divider"></div>
+        </div>
+        <div class="grid-4 reveal">
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:3rem;font-weight:800;color:var(--amber);">61</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Années d'expérience</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:3rem;font-weight:800;color:var(--amber);">18K</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Employés qualifiés</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:3rem;font-weight:800;color:var(--amber);">4</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Divisions majeures</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:3rem;font-weight:800;color:var(--amber);">100%</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Fournisseur national</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page-home -->
+
+
+  <!-- ============================================================
+       PAGE: ABOUT
+  ============================================================ -->
+  <div id="page-about" class="page">
+    <div class="page-hero">
+      <div class="container">
+        <div class="label" style="margin-bottom:16px;">Orion Defense Industries — Depuis 1964</div>
+        <h1 class="section-title" style="font-size:clamp(2rem,5vw,4rem);">À Propos <span>d'ODI</span></h1>
+        <div class="divider" style="margin:20px 0;"></div>
+        <p style="color:var(--steel);max-width:600px;font-size:1.05rem;">Entreprise nationale stratégique classifiée — 100% détenue par l'État du Royaume de Black Reef.</p>
+      </div>
+    </div>
+
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="grid-2" style="align-items:start;gap:80px;">
+          <div class="reveal">
+            <div class="label" style="margin-bottom:16px;">Identité stratégique</div>
+            <h2 class="section-title" style="text-align:left;font-size:2rem;">L'Armure du <span>Royaume</span></h2>
+            <div class="divider" style="margin:20px 0;"></div>
+            <p style="color:var(--steel);margin-bottom:18px;">Fondée en 1964 dans un contexte de tensions géopolitiques majeures, Orion Defense Industries (ODI) a été créée pour garantir l'autonomie stratégique du Royaume de Black Reef dans les domaines de la défense terrestre, navale et nucléaire.</p>
+            <p style="color:var(--steel);margin-bottom:18px;">ODI constitue aujourd'hui l'un des piliers industriels les plus sensibles et les plus protégés de Black Reef, placée sous double supervision du Ministère Royal de la Défense et de l'Autorité Nationale de Sécurité Stratégique.</p>
+            <p style="color:var(--steel);">Fournisseur exclusif des forces armées nationales, ODI est également partenaire stratégique de plusieurs États alliés, avec un réseau industriel réparti sur sites hautement sécurisés.</p>
+          </div>
+          <div class="reveal reveal-delay-2">
+            <div style="background:linear-gradient(135deg,var(--dark),var(--army));padding:48px;border:1px solid rgba(212,128,26,.2);position:relative;">
+              <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);margin-bottom:24px;">// FICHE OFFICIELLE CLASSIFIÉE</div>
+              <table style="width:100%;border-collapse:collapse;">
+                <tr><td style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">Désignation</td><td style="font-family:var(--font-mono);font-size:.88rem;color:var(--white);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">Orion Defense Industries</td></tr>
+                <tr><td style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">Statut</td><td style="font-family:var(--font-mono);font-size:.88rem;color:var(--white);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">Entreprise nationale classifiée</td></tr>
+                <tr><td style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">Fondation</td><td style="font-family:var(--font-mono);font-size:.88rem;color:var(--white);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">1964</td></tr>
+                <tr><td style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">Supervision</td><td style="font-family:var(--font-mono);font-size:.88rem;color:var(--white);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">Ministère Royal de la Défense + ANSS</td></tr>
+                <tr><td style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">Actionnaire</td><td style="font-family:var(--font-mono);font-size:.88rem;color:var(--white);padding:12px 0;border-bottom:1px solid rgba(45,110,32,.1);">État du Royaume de Black Reef (100%)</td></tr>
+                <tr><td style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);padding:12px 0;">Devise</td><td style="font-family:var(--font-mono);font-size:.88rem;color:var(--gold);padding:12px 0;font-style:italic;">"La puissance maîtrisée, la sécurité absolue."</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="section-pad" style="background:linear-gradient(135deg,var(--dark),var(--army));">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">Piliers fondamentaux</div>
+          <h2 class="section-title">Nos <span>Valeurs</span></h2>
+          <div class="divider"></div>
+        </div>
+        <div class="grid-4">
+          <div class="card value-card reveal reveal-delay-1">
+            <div class="value-icon">⚜️</div>
+            <h4>Souveraineté</h4>
+            <p>Garantir l'indépendance stratégique totale du Royaume face à toute dépendance extérieure.</p>
+          </div>
+          <div class="card value-card reveal reveal-delay-2">
+            <div class="value-icon">🎯</div>
+            <h4>Dissuasion</h4>
+            <p>Maintenir une capacité de réponse crédible qui préserve la paix par la force.</p>
+          </div>
+          <div class="card value-card reveal reveal-delay-3">
+            <div class="value-icon">⚙️</div>
+            <h4>Précision Industrielle</h4>
+            <p>Excellence technique dans chaque système produit, tolérance zéro pour les défaillances.</p>
+          </div>
+          <div class="card value-card reveal reveal-delay-4">
+            <div class="value-icon">🔐</div>
+            <h4>Sécurité Absolue</h4>
+            <p>Protection maximale des installations, personnels et informations classifiées.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORGANISATION -->
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">Structure interne</div>
+          <h2 class="section-title">Organisation <span>ODI</span></h2>
+          <div class="divider"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0;" class="reveal">
+          <div class="org-node" style="border-color:rgba(212,128,26,.4);background:rgba(212,128,26,.08);">
+            <h4>Direction Générale Stratégique</h4>
+            <p>Niveau 1 — Classification : TRÈS SECRET</p>
+          </div>
+          <div class="org-line"></div>
+          <div style="display:flex;gap:40px;flex-wrap:wrap;justify-content:center;">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div class="org-node">
+                <h4>Commandement Industriel Militaire</h4>
+                <p>Niveau 2 — Classification : SECRET</p>
+              </div>
+              <div class="org-line"></div>
+              <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+                <div class="org-node" style="min-width:180px;padding:14px 20px;">
+                  <h4>Division Blindés</h4>
+                  <p>Niveau 3</p>
+                </div>
+                <div class="org-node" style="min-width:180px;padding:14px 20px;">
+                  <h4>Division Navale</h4>
+                  <p>Niveau 3</p>
+                </div>
+                <div class="org-node" style="min-width:180px;padding:14px 20px;">
+                  <h4>Division Armement</h4>
+                  <p>Niveau 3</p>
+                </div>
+                <div class="org-node" style="min-width:180px;padding:14px 20px;border-color:rgba(192,40,40,.3);">
+                  <h4>Division Nucléaire</h4>
+                  <p style="color:rgba(192,40,40,.6);">Niveau MAX</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRÉSENCE -->
+    <section class="section-pad" style="background:linear-gradient(135deg,var(--dark),var(--army));">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">Impact national</div>
+          <h2 class="section-title">Présence <span>& Impact</span></h2>
+          <div class="divider"></div>
+          <p class="section-subtitle">ODI est le fournisseur exclusif des forces armées de Black Reef, avec un réseau industriel classifié couvrant l'ensemble du territoire national et des États partenaires.</p>
+        </div>
+        <div class="presence-stats reveal">
+          <div class="presence-stat"><div class="n">100%</div><div class="u">Fournisseur des FA</div></div>
+          <div class="presence-stat"><div class="n">18K</div><div class="u">Employés</div></div>
+          <div class="presence-stat"><div class="n">4</div><div class="u">Divisions classifiées</div></div>
+          <div class="presence-stat"><div class="n">3</div><div class="u">Niveaux de sécurité</div></div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-about -->
+
+
+  <!-- ============================================================
+       PAGE: ARMORED VEHICLES
+  ============================================================ -->
+  <div id="page-armor" class="page">
+    <div class="page-hero">
+      <div class="container">
+        <div class="label" style="margin-bottom:16px;">Division Véhicules Blindés</div>
+        <h1 class="section-title" style="font-size:clamp(2rem,5vw,4rem);">Véhicules <span>Blindés</span></h1>
+        <div class="divider" style="margin:20px 0;"></div>
+        <p style="color:var(--steel);max-width:600px;font-size:1.05rem;">Plateforme terrestre principale des forces armées du Royaume — de la reconnaissance légère au blindé lourd de percée.</p>
+      </div>
+    </div>
+
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">Programmes majeurs</div>
+          <h2 class="section-title">Flotte <span>Terrestre</span></h2>
+          <div class="divider"></div>
+        </div>
+
+        <div class="grid-3">
+          <div class="vehicle-card reveal reveal-delay-1">
+            <div class="vehicle-visual">🚛</div>
+            <div class="vehicle-body">
+              <h4>ODI-VTM Mk.4</h4>
+              <p>Véhicule de transport blindé multi-rôles — jusqu'à 12 soldats, protection STANAG 4569 Niveau 4.</p>
+              <div class="vehicle-spec">STANAG NV 4</div>
+            </div>
+          </div>
+          <div class="vehicle-card reveal reveal-delay-2">
+            <div class="vehicle-visual">🏗️</div>
+            <div class="vehicle-body">
+              <h4>ODI-UAV Citadel</h4>
+              <p>Véhicule d'assaut urbain à blindage renforcé, fenêtres de tir latérales, modules IED-résistants.</p>
+              <div class="vehicle-spec">URBAN ASSAULT</div>
+            </div>
+          </div>
+          <div class="vehicle-card reveal reveal-delay-3">
+            <div class="vehicle-visual">⚙️</div>
+            <div class="vehicle-body">
+              <h4>ODI-HBT Titan</h4>
+              <p>Blindé lourd de percée — armement principal 140 mm, blindage composite ERA actif.</p>
+              <div class="vehicle-spec">CLASSE MBT</div>
+            </div>
+          </div>
+          <div class="vehicle-card reveal reveal-delay-1">
+            <div class="vehicle-visual">🔭</div>
+            <div class="vehicle-body">
+              <h4>ODI-VRB Lynx</h4>
+              <p>Véhicule de reconnaissance blindé léger — radar embarqué, optronique avancé, vitesse 110 km/h.</p>
+              <div class="vehicle-spec">RECONNAISSANCE</div>
+            </div>
+          </div>
+          <div class="vehicle-card reveal reveal-delay-2">
+            <div class="vehicle-visual">🧱</div>
+            <div class="vehicle-body">
+              <h4>ODI-PMC Modulo</h4>
+              <p>Plateforme modulaire de combat — châssis universel adaptable à 12 configurations tactiques.</p>
+              <div class="vehicle-spec">MODULAIRE</div>
+            </div>
+          </div>
+          <div class="vehicle-card reveal reveal-delay-3">
+            <div class="vehicle-visual">🚑</div>
+            <div class="vehicle-body">
+              <h4>ODI-VSA MedEvac</h4>
+              <p>Véhicule de soutien sanitaire blindé — extraction de blessés en zone de combat active.</p>
+              <div class="vehicle-spec">MÉDICAL COMBAT</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ARCHITECTURE MODULAIRE -->
+        <div class="card reveal" style="margin-top:60px;padding:40px;">
+          <div class="label" style="margin-bottom:16px;">Technologie clé</div>
+          <h3 style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;">Architecture Évolutive ODI-AE</h3>
+          <p style="color:var(--steel);margin-bottom:24px;">Tous les véhicules ODI sont conçus sur une architecture modulaire permettant l'ajout ou le remplacement de systèmes sans refonte majeure. Chaque plateforme peut intégrer :</p>
+          <div class="grid-4">
+            <div style="text-align:center;padding:20px;border:1px solid rgba(45,110,32,.1);">
+              <div style="font-size:1.8rem;margin-bottom:10px;">🛡️</div>
+              <div style="font-family:var(--font-mono);font-size:.7rem;color:var(--lime);">Défense Active</div>
+              <div style="font-size:.8rem;color:var(--steel);margin-top:6px;">APS Trophy / ARENA compatible</div>
+            </div>
+            <div style="text-align:center;padding:20px;border:1px solid rgba(45,110,32,.1);">
+              <div style="font-size:1.8rem;margin-bottom:10px;">📡</div>
+              <div style="font-family:var(--font-mono);font-size:.7rem;color:var(--lime);">Capteurs Multi-Spectraux</div>
+              <div style="font-size:.8rem;color:var(--steel);margin-top:6px;">IR, thermique, radar</div>
+            </div>
+            <div style="text-align:center;padding:20px;border:1px solid rgba(45,110,32,.1);">
+              <div style="font-size:1.8rem;margin-bottom:10px;">🤖</div>
+              <div style="font-family:var(--font-mono);font-size:.7rem;color:var(--lime);">Armements Auto.</div>
+              <div style="font-size:.8rem;color:var(--steel);margin-top:6px;">RCWS télé-opéré</div>
+            </div>
+            <div style="text-align:center;padding:20px;border:1px solid rgba(45,110,32,.1);">
+              <div style="font-size:1.8rem;margin-bottom:10px;">🔗</div>
+              <div style="font-family:var(--font-mono);font-size:.7rem;color:var(--lime);">Réseau Tactique</div>
+              <div style="font-size:.8rem;color:var(--steel);margin-top:6px;">BMS intégré chiffré</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-armor -->
+
+
+  <!-- ============================================================
+       PAGE: NAVAL
+  ============================================================ -->
+  <div id="page-naval" class="page">
+    <div class="page-hero" style="background:linear-gradient(150deg,#040c16,#0a1828);">
+      <div class="container">
+        <div class="label" style="margin-bottom:16px;">Division Navale Militaire</div>
+        <h1 class="section-title" style="font-size:clamp(2rem,5vw,4rem);">Flotte <span>Navale</span></h1>
+        <div class="divider" style="margin:20px 0;"></div>
+        <p style="color:var(--steel);max-width:600px;font-size:1.05rem;">Construction et intégration des bâtiments de guerre du Royaume de Black Reef — de la frégate polyvalente au sous-marin stratégique.</p>
+      </div>
+    </div>
+
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">Flotte produite</div>
+          <h2 class="section-title">Bâtiments <span>de Guerre</span></h2>
+          <div class="divider"></div>
+        </div>
+
+        <div class="grid-3">
+          <div class="ship-card reveal reveal-delay-1">
+            <div class="ship-top">
+              <div class="ship-icon">🚢</div>
+              <div class="ship-class">Frégate Polyvalente</div>
+            </div>
+            <div class="ship-body">
+              <h4>ODI-FDP Horizon</h4>
+              <p>Frégate de défense polyvalente — lutte anti-aérienne, anti-sous-marine et de surface.</p>
+              <div class="ship-specs">
+                <div class="sspec"><span class="sspec-key">Déplacement</span><span class="sspec-val">6 000 t</span></div>
+                <div class="sspec"><span class="sspec-key">Longueur</span><span class="sspec-val">140 m</span></div>
+                <div class="sspec"><span class="sspec-key">Vitesse</span><span class="sspec-val">29 nœuds</span></div>
+                <div class="sspec"><span class="sspec-key">Équipage</span><span class="sspec-val">230</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ship-card reveal reveal-delay-2">
+            <div class="ship-top">
+              <div class="ship-icon">⚔️</div>
+              <div class="ship-class">Destroyer Haute Intensité</div>
+            </div>
+            <div class="ship-body">
+              <h4>ODI-DHI Sovereign</h4>
+              <p>Destroyer de combat haute intensité — frappe profonde, missiles de croisière, défense aérienne avancée.</p>
+              <div class="ship-specs">
+                <div class="sspec"><span class="sspec-key">Déplacement</span><span class="sspec-val">9 800 t</span></div>
+                <div class="sspec"><span class="sspec-key">Longueur</span><span class="sspec-val">172 m</span></div>
+                <div class="sspec"><span class="sspec-key">Vitesse</span><span class="sspec-val">32 nœuds</span></div>
+                <div class="sspec"><span class="sspec-key">Équipage</span><span class="sspec-val">340</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ship-card reveal reveal-delay-3" style="border-color:rgba(192,40,40,.2);">
+            <div class="ship-top" style="background:linear-gradient(180deg,rgba(20,6,6,.9),rgba(12,4,4,.8));">
+              <div class="ship-icon">🌀</div>
+              <div class="ship-class" style="color:var(--red);border-color:rgba(192,40,40,.3);background:rgba(192,40,40,.08);">Sous-Marin Stratégique</div>
+            </div>
+            <div class="ship-body">
+              <h4>ODI-SSN Abyss</h4>
+              <p>Sous-marin stratégique — missions SNLE, vecteur nucléaire et renseignement sous-marin furtif.</p>
+              <div class="ship-specs">
+                <div class="sspec"><span class="sspec-key">Déplacement</span><span class="sspec-val">12 000 t</span></div>
+                <div class="sspec"><span class="sspec-key">Longueur</span><span class="sspec-val">136 m</span></div>
+                <div class="sspec"><span class="sspec-key">Profondeur</span><span class="sspec-val">400 m</span></div>
+                <div class="sspec"><span class="sspec-key">Autonomie</span><span class="sspec-val">90 jours</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ship-card reveal reveal-delay-1">
+            <div class="ship-top">
+              <div class="ship-icon">⛵</div>
+              <div class="ship-class">Navire Côtier</div>
+            </div>
+            <div class="ship-body">
+              <h4>ODI-NGC Sentinel</h4>
+              <p>Navire de guerre côtier rapide — patrouille exclusive des eaux territoriales de Black Reef.</p>
+              <div class="ship-specs">
+                <div class="sspec"><span class="sspec-key">Déplacement</span><span class="sspec-val">600 t</span></div>
+                <div class="sspec"><span class="sspec-key">Longueur</span><span class="sspec-val">62 m</span></div>
+                <div class="sspec"><span class="sspec-key">Vitesse</span><span class="sspec-val">42 nœuds</span></div>
+                <div class="sspec"><span class="sspec-key">Équipage</span><span class="sspec-val">45</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ship-card reveal reveal-delay-2">
+            <div class="ship-top">
+              <div class="ship-icon">🛳️</div>
+              <div class="ship-class">Logistique Militaire</div>
+            </div>
+            <div class="ship-body">
+              <h4>ODI-BSL Atlas</h4>
+              <p>Bâtiment de soutien logistique — ravitaillement en mer, transport de matériels et réparations de campagne.</p>
+              <div class="ship-specs">
+                <div class="sspec"><span class="sspec-key">Déplacement</span><span class="sspec-val">22 000 t</span></div>
+                <div class="sspec"><span class="sspec-key">Longueur</span><span class="sspec-val">195 m</span></div>
+                <div class="sspec"><span class="sspec-key">Charge</span><span class="sspec-val">8 000 t</span></div>
+                <div class="sspec"><span class="sspec-key">Équipage</span><span class="sspec-val">180</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RÉSEAU NUMÉRIQUE -->
+        <div class="card reveal" style="margin-top:60px;padding:40px;border-color:rgba(212,128,26,.2);">
+          <div class="label" style="margin-bottom:16px;">Technologie navale ODI</div>
+          <h3 style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;">Réseau de Combat Numérique Intégré</h3>
+          <p style="color:var(--steel);margin-bottom:24px;">Les navires ODI sont interconnectés au sein d'un réseau de combat numérique permettant la coordination en temps réel avec les forces aériennes (ADS) et terrestres de Black Reef. Caractéristiques principales :</p>
+          <div class="grid-3">
+            <div style="padding:20px;border:1px solid rgba(45,110,32,.1);">
+              <div style="font-family:var(--font-mono);font-size:.72rem;color:var(--lime);margin-bottom:8px;">LINK-16 / ODI-NET</div>
+              <p style="font-size:.82rem;color:var(--steel);">Partage de données tactiques interarmées en temps réel, chiffrement militaire AES-512.</p>
+            </div>
+            <div style="padding:20px;border:1px solid rgba(45,110,32,.1);">
+              <div style="font-family:var(--font-mono);font-size:.72rem;color:var(--lime);margin-bottom:8px;">CMS TRITON</div>
+              <p style="font-size:.82rem;color:var(--steel);">Système de gestion de combat modulaire intégrant radar, sonar, armement et contre-mesures.</p>
+            </div>
+            <div style="padding:20px;border:1px solid rgba(45,110,32,.1);">
+              <div style="font-family:var(--font-mono);font-size:.72rem;color:var(--lime);margin-bottom:8px;">AEGIS NAVAL AI</div>
+              <p style="font-size:.82rem;color:var(--steel);">IA de gestion des engagements — analyse de menaces multi-domaines, recommandations tactiques.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-naval -->
+
+
+  <!-- ============================================================
+       PAGE: ARMAMENT
+  ============================================================ -->
+  <div id="page-armament" class="page">
+    <div class="page-hero">
+      <div class="container">
+        <div class="label" style="margin-bottom:16px;">Division Armement Nouvelle Génération</div>
+        <h1 class="section-title" style="font-size:clamp(2rem,5vw,4rem);">Systèmes <span>d'Armement</span></h1>
+        <div class="divider" style="margin:20px 0;"></div>
+        <p style="color:var(--steel);max-width:600px;font-size:1.05rem;">Armement de précision, systèmes guidés intelligents et plateformes automatisées pour les forces armées du Royaume.</p>
+      </div>
+    </div>
+
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">Technologies développées</div>
+          <h2 class="section-title">Catalogue <span>Armement</span></h2>
+          <div class="divider"></div>
+        </div>
+
+        <div class="grid-3">
+          <div class="weapon-card reveal reveal-delay-1">
+            <div class="weapon-icon">🎯</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+              <h4>Systèmes d'Armes Modulaires</h4>
+              <div class="class-banner class-conf" style="font-size:.6rem;padding:3px 8px;">CONF.</div>
+            </div>
+            <p>Architecture modulaire permettant la reconfiguration des systèmes d'armes en opération selon les besoins tactiques.</p>
+          </div>
+          <div class="weapon-card reveal reveal-delay-2">
+            <div class="weapon-icon">🔭</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+              <h4>Armement à Guidage Intelligent</h4>
+              <div class="class-banner class-conf" style="font-size:.6rem;padding:3px 8px;">CONF.</div>
+            </div>
+            <p>Munitions guidées par GPS, IR et laser — précision CEP inférieure à 3 mètres sur cibles fixes et mobiles.</p>
+          </div>
+          <div class="weapon-card reveal reveal-delay-3">
+            <div class="weapon-icon">🤖</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+              <h4>Tir Assisté par IA</h4>
+              <div class="class-banner class-conf" style="font-size:.6rem;padding:3px 8px;">CONF.</div>
+            </div>
+            <p>Systèmes de conduite de tir IA — identification automatique des cibles, calcul balistique en temps réel, engagement autonome.</p>
+          </div>
+          <div class="weapon-card reveal reveal-delay-1">
+            <div class="weapon-icon">🔗</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+              <h4>Plateformes d'Armes Intégrées</h4>
+              <div class="class-banner class-conf" style="font-size:.6rem;padding:3px 8px;">CONF.</div>
+            </div>
+            <p>Intégration multi-vecteurs — une même plateforme de commandement coordonnant artillerie, missiles et armement embarqué.</p>
+          </div>
+          <div class="weapon-card reveal reveal-delay-2">
+            <div class="weapon-icon">🛡️</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+              <h4>Systèmes de Défense Automatisés</h4>
+              <div class="class-banner class-conf" style="font-size:.6rem;padding:3px 8px;">CONF.</div>
+            </div>
+            <p>CIWS automatisés, systèmes anti-drones et contre-mesures électroniques pour la protection des installations critiques.</p>
+          </div>
+          <div class="weapon-card reveal reveal-delay-3">
+            <div class="weapon-icon">⚡</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+              <h4>Armes à Énergie Dirigée</h4>
+              <div class="class-banner class-secret" style="font-size:.6rem;padding:3px 8px;">SECRET</div>
+            </div>
+            <p>Systèmes laser de haute puissance et armes micro-ondes pour la neutralisation de cibles à grande distance sans munition cinétique.</p>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="grid-4 reveal" style="margin-top:60px;">
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--amber);">&lt;3m</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Précision CEP</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--amber);">0.8s</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Réaction IA</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--amber);">12</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Lignes de produits</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--amber);">97%</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Fiabilité opérationnelle</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-armament -->
+
+
+  <!-- ============================================================
+       PAGE: NUCLEAR
+  ============================================================ -->
+  <div id="page-nuclear" class="page">
+    <div class="page-hero" style="background:linear-gradient(150deg,#080303,#120a04);">
+      <div class="container">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+          <div class="class-banner class-secret" style="font-size:.7rem;">☢ SECRET DÉFENSE ABSOLU</div>
+        </div>
+        <h1 class="section-title" style="font-size:clamp(2rem,5vw,4rem);color:var(--red);">Division <span style="color:var(--amber);">Stratégique Nucléaire</span></h1>
+        <div class="divider" style="margin:20px 0;background:linear-gradient(90deg,var(--red),var(--amber));"></div>
+        <p style="color:rgba(138,158,128,.7);max-width:600px;font-size:1.05rem;">Division classée au plus haut niveau de secret industriel du Royaume. Accès strictement réservé aux personnels hautement habilités.</p>
+      </div>
+    </div>
+
+    <!-- NUCLEAR MAIN -->
+    <section class="nuclear-section section-pad">
+      <div class="container">
+        <div class="nuclear-header reveal">
+          <div class="nuclear-icon-big">☢️</div>
+          <div class="nuclear-header-text">
+            <h2>Division Stratégique Nucléaire ODI</h2>
+            <p>// CLASSIFICATION : TRÈS SECRET — HABILITATION MAXIMALE REQUISE</p>
+          </div>
+        </div>
+
+        <p style="color:rgba(138,158,128,.7);max-width:700px;margin-bottom:48px;" class="reveal">
+          ODI est responsable de la production, de la maintenance et de la sécurisation des capacités nucléaires stratégiques du Royaume de Black Reef. Cette division constitue le cœur de la dissuasion nationale et opère sous les conditions de confidentialité les plus strictes jamais appliquées à une entité industrielle du Royaume.
+        </p>
+
+        <div class="nuclear-missions reveal">
+          <div class="nuclear-mission">
+            <h4>☢ Fabrication des Systèmes de Dissuasion</h4>
+            <p>Production des vecteurs stratégiques et des systèmes de mise à feu — classification maximale. Détails inaccessibles sans habilitation niveau Zeta.</p>
+          </div>
+          <div class="nuclear-mission">
+            <h4>🏗️ Maintenance des Infrastructures</h4>
+            <p>Maintenance et modernisation des sites de stockage sécurisés. Inspection régulière selon protocoles AIEA adaptés aux besoins de souveraineté nationale.</p>
+          </div>
+          <div class="nuclear-mission">
+            <h4>🚀 Modernisation des Vecteurs</h4>
+            <p>Programme de modernisation continue des vecteurs de livraison stratégiques pour maintenir la crédibilité de la dissuasion nationale.</p>
+          </div>
+          <div class="nuclear-mission">
+            <h4>🔐 Sécurisation des Sites</h4>
+            <p>Protection physique et électronique des installations nucléaires contre toute menace terroriste, cybernétique ou militaire.</p>
+          </div>
+          <div class="nuclear-mission">
+            <h4>📦 Gestion Logistique Classifiée</h4>
+            <p>Coordination des flux logistiques liés aux matières stratégiques selon protocoles de transport ultra-sécurisés.</p>
+          </div>
+          <div class="nuclear-mission">
+            <h4>🛡️ Sûreté Nucléaire Industrielle</h4>
+            <p>Formation des personnels, gestion des incidents, protocoles d'urgence et interfaces avec les autorités nationales de sûreté.</p>
+          </div>
+        </div>
+
+        <div class="nuclear-classified reveal">
+          <div style="font-size:2rem;">⛔</div>
+          <p>
+            Les informations détaillées relatives aux programmes, aux capacités, aux sites et aux vecteurs stratégiques de cette division sont classifiées au niveau TRÈS SECRET — SOUVERAINETÉ NATIONALE et ne sont pas accessibles dans ce portail. Toute demande d'accès doit être formulée directement auprès de l'Autorité Nationale de Sécurité Stratégique (ANSS) du Royaume de Black Reef.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label" style="color:rgba(192,40,40,.7);">Principe fondateur</div>
+          <h2 class="section-title" style="font-size:2rem;">Doctrine de <span>Dissuasion</span></h2>
+          <div class="divider" style="background:linear-gradient(90deg,var(--red),var(--amber));"></div>
+        </div>
+        <div class="grid-3">
+          <div class="card reveal reveal-delay-1" style="border-color:rgba(192,40,40,.1);text-align:center;">
+            <div style="font-size:2rem;margin-bottom:16px;">🌐</div>
+            <h4 style="font-family:var(--font-display);font-size:.9rem;font-weight:600;text-transform:uppercase;color:var(--white);margin-bottom:10px;">Dissuasion Crédible</h4>
+            <p style="font-size:.85rem;color:var(--steel);">Maintenir une capacité de réponse suffisamment puissante pour décourager toute agression contre le Royaume.</p>
+          </div>
+          <div class="card reveal reveal-delay-2" style="border-color:rgba(192,40,40,.1);text-align:center;">
+            <div style="font-size:2rem;margin-bottom:16px;">🔒</div>
+            <h4 style="font-family:var(--font-display);font-size:.9rem;font-weight:600;text-transform:uppercase;color:var(--white);margin-bottom:10px;">Sécurité Absolue</h4>
+            <p style="font-size:.85rem;color:var(--steel);">Tolérance zéro pour tout incident ou défaillance concernant les systèmes stratégiques nationaux.</p>
+          </div>
+          <div class="card reveal reveal-delay-3" style="border-color:rgba(192,40,40,.1);text-align:center;">
+            <div style="font-size:2rem;margin-bottom:16px;">⚖️</div>
+            <h4 style="font-family:var(--font-display);font-size:.9rem;font-weight:600;text-transform:uppercase;color:var(--white);margin-bottom:10px;">Équilibre Stratégique</h4>
+            <p style="font-size:.85rem;color:var(--steel);">Contribuer à la stabilité régionale et internationale par le maintien d'une posture stratégique responsable.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-nuclear -->
+
+
+  <!-- ============================================================
+       PAGE: R&D
+  ============================================================ -->
+  <div id="page-research" class="page">
+    <div class="page-hero">
+      <div class="container">
+        <div class="label" style="margin-bottom:16px;">Complexes de Recherche Ultra-Sécurisés</div>
+        <h1 class="section-title" style="font-size:clamp(2rem,5vw,4rem);">Recherche <span>& Développement</span></h1>
+        <div class="divider" style="margin:20px 0;"></div>
+        <p style="color:var(--steel);max-width:600px;font-size:1.05rem;">ODI possède plusieurs complexes de recherche classifiés dédiés aux technologies de défense de nouvelle génération.</p>
+      </div>
+    </div>
+
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <div class="label">Axes prioritaires</div>
+          <h2 class="section-title">Programmes <span>de Recherche</span></h2>
+          <div class="divider"></div>
+        </div>
+        <div class="grid-3">
+          <div class="rd-card reveal reveal-delay-1">
+            <div class="rd-header">
+              <div class="rd-icon">🧱</div>
+              <h4>Blindages Composites Avancés</h4>
+            </div>
+            <div class="rd-body">
+              <p>Développement de matériaux ultra-résistants : nano-composites céramique-acier, blindages ERA de 3ème génération, absorbeurs d'énergie cinétique.</p>
+              <div class="progress-label"><span>Avancement</span><span style="color:var(--amber);">84%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:84%"></div></div>
+            </div>
+          </div>
+          <div class="rd-card reveal reveal-delay-2">
+            <div class="rd-header">
+              <div class="rd-icon">⚓</div>
+              <h4>Propulsion Navale NG</h4>
+            </div>
+            <div class="rd-body">
+              <p>Propulsion hybride nucléaire-électrique pour sous-marins, turbines marines haute performance, propulsion magnétohydrodynamique expérimentale.</p>
+              <div class="progress-label"><span>Avancement</span><span style="color:var(--amber);">61%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:61%"></div></div>
+            </div>
+          </div>
+          <div class="rd-card reveal reveal-delay-3">
+            <div class="rd-header">
+              <div class="rd-icon">🧠</div>
+              <h4>Systèmes d'Armes Intelligents</h4>
+            </div>
+            <div class="rd-body">
+              <p>IA embarquée pour systèmes d'armes — reconnaissance de cibles, engagement autonome conditionnel, apprentissage tactique en temps réel.</p>
+              <div class="progress-label"><span>Avancement</span><span style="color:var(--amber);">78%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div>
+            </div>
+          </div>
+          <div class="rd-card reveal reveal-delay-1">
+            <div class="rd-header">
+              <div class="rd-icon">🤖</div>
+              <h4>Automatisation des Plateformes</h4>
+            </div>
+            <div class="rd-body">
+              <p>Véhicules et navires autonomes ou semi-autonomes — drones terrestre et sous-marins, essaims de drones coordonnés par IA.</p>
+              <div class="progress-label"><span>Avancement</span><span style="color:var(--amber);">70%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+            </div>
+          </div>
+          <div class="rd-card reveal reveal-delay-2">
+            <div class="rd-header">
+              <div class="rd-icon">☢️</div>
+              <h4>Technologies de Dissuasion</h4>
+            </div>
+            <div class="rd-body">
+              <p>Modernisation des vecteurs balistiques, miniaturisation des charges, amélioration de la précision et développement des contre-mesures défensives.</p>
+              <div class="progress-label"><span style="color:var(--red);">Avancement</span><span style="color:var(--red);">CLASSIFIÉ</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--red);"></div></div>
+            </div>
+          </div>
+          <div class="rd-card reveal reveal-delay-3">
+            <div class="rd-header">
+              <div class="rd-icon">🔐</div>
+              <h4>Sécurité Systèmes Nucléaires</h4>
+            </div>
+            <div class="rd-body">
+              <p>Systèmes de verrouillage PAL de nouvelle génération, protection anti-piratage quantique, intégrité des chaînes de commandement stratégiques.</p>
+              <div class="progress-label"><span style="color:var(--red);">Avancement</span><span style="color:var(--red);">CLASSIFIÉ</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,var(--red),#600);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHIFFRES -->
+        <div class="grid-4 reveal" style="margin-top:60px;">
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--amber);">22%</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Du CA en R&amp;D</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--amber);">3 200</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Ingénieurs R&amp;D</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--amber);">420</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Brevets classifiés</div>
+          </div>
+          <div style="text-align:center;padding:32px;border:1px solid rgba(45,110,32,.12);">
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--amber);">8</div>
+            <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:8px;">Complexes sécurisés</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-research -->
+
+
+  <!-- ============================================================
+       PAGE: CONTACT
+  ============================================================ -->
+  <div id="page-contact" class="page">
+    <div class="page-hero">
+      <div class="container">
+        <div class="label" style="margin-bottom:16px;">Orion Defense Industries</div>
+        <h1 class="section-title" style="font-size:clamp(2rem,5vw,4rem);">Nous <span>Contacter</span></h1>
+        <div class="divider" style="margin:20px 0;"></div>
+        <p style="color:var(--steel);max-width:600px;font-size:1.05rem;">Toutes les communications avec ODI sont soumises à un protocole de sécurité strict. Les demandes relatives aux divisions classifiées requièrent une habilitation préalable.</p>
+      </div>
+    </div>
+
+    <section class="section-pad" style="background:var(--black);">
+      <div class="container">
+        <div class="contact-grid">
+          <!-- INFOS -->
+          <div class="reveal">
+            <div class="label" style="margin-bottom:24px;">// COORDONNÉES OFFICIELLES</div>
+
+            <div class="contact-info-item">
+              <div class="contact-icon">🏛️</div>
+              <div>
+                <h4>Siège Industriel</h4>
+                <p>Complexe ODI — Zone Industrielle Stratégique Nord<br/>Black Reef, Royaume de Black Reef</p>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon">📞</div>
+              <div>
+                <h4>Standard général</h4>
+                <p>+00 (1) 700 ODI-DEFENSE<br/>Lun–Ven, 07h30–17h30</p>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon">📧</div>
+              <div>
+                <h4>Contact institutionnel</h4>
+                <p>contact@odi-defense.gov.br<br/>Réponse sous 96h</p>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon">⚠️</div>
+              <div>
+                <h4>Division Stratégique</h4>
+                <p>Accès restreint uniquement via l'Autorité Nationale de Sécurité Stratégique (ANSS). Aucune communication directe possible.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORM -->
+          <div class="contact-form reveal reveal-delay-2">
+            <div class="label" style="margin-bottom:24px;">// FORMULAIRE SÉCURISÉ ODI</div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nom</label>
+                <input type="text" placeholder="Votre nom" />
+              </div>
+              <div class="form-group">
+                <label>Grade / Titre</label>
+                <input type="text" placeholder="Général / Ministre / Dr." />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Organisation représentée</label>
+              <input type="text" placeholder="Ministère / Force armée / Entreprise" />
+            </div>
+
+            <div class="form-group">
+              <label>Email sécurisé</label>
+              <input type="email" placeholder="adresse@institution.gov" />
+            </div>
+
+            <div class="form-group">
+              <label>Division concernée</label>
+              <select>
+                <option value="">Sélectionner...</option>
+                <option>Division Véhicules Blindés</option>
+                <option>Division Navale Militaire</option>
+                <option>Division Armement Nouvelle Génération</option>
+                <option>Division Stratégique (habilitation requise)</option>
+                <option>Recherche & Développement</option>
+                <option>Direction Générale</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Niveau d'habilitation</label>
+              <select>
+                <option>Non habilité</option>
+                <option>Diffusion restreinte</option>
+                <option>Confidentiel défense</option>
+                <option>Secret défense</option>
+                <option>Très secret (ANSS validation)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Objet de la demande</label>
+              <textarea placeholder="Décrivez votre demande de manière précise et officielle..."></textarea>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="submitForm()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              Soumettre la demande officielle
+            </button>
+
+            <p style="font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);margin-top:16px;text-align:center;">
+              🔒 Transmission chiffrée — Traitement sous protocole de sécurité national
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-contact -->
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer id="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo-text">ODI</div>
+          <div style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);">Orion Defense Industries</div>
+          <p class="footer-about">Industrie nationale de l'armement et des systèmes stratégiques du Royaume de Black Reef. Fournisseur exclusif des forces armées nationales depuis 1964.</p>
+          <div style="font-family:var(--font-mono);font-size:.8rem;font-style:italic;color:var(--gold);">"La puissance maîtrisée, la sécurité absolue."</div>
+        </div>
+        <div class="footer-col">
+          <h5>Divisions</h5>
+          <ul>
+            <li onclick="showPage('armor')">Véhicules Blindés</li>
+            <li onclick="showPage('naval')">Navale Militaire</li>
+            <li onclick="showPage('armament')">Armement NG</li>
+            <li onclick="showPage('nuclear')">☢ Stratégique</li>
+            <li onclick="showPage('research')">R&amp;D</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Institution</h5>
+          <ul>
+            <li onclick="showPage('about')">À propos d'ODI</li>
+            <li onclick="showPage('about')">Histoire</li>
+            <li onclick="showPage('about')">Valeurs</li>
+            <li onclick="showPage('about')">Organisation</li>
+            <li onclick="showPage('contact')">Contact</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Légal</h5>
+          <ul>
+            <li>Mentions légales</li>
+            <li>Accès classifié</li>
+            <li>Sécurité industrielle</li>
+            <li>ANSS — Black Reef</li>
+            <li>Déclaration de sécurité</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2025 Orion Defense Industries — Tous droits réservés — Royaume de Black Reef</p>
+        <div class="classified">☢ INFORMATIONS CLASSIFIÉES — ACCÈS RESTREINT</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <div id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </div>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ─── PAGE NAVIGATION ─── */
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      document.getElementById('nav-menu').classList.remove('open');
+      setTimeout(initReveal, 50);
+      if (id === 'research') setTimeout(animateProgress, 200);
+    }
+
+    /* ─── NAVBAR ─── */
+    window.addEventListener('scroll', () => {
+      const nb = document.getElementById('navbar');
+      const bt = document.getElementById('back-top');
+      nb.classList.toggle('scrolled', window.scrollY > 60);
+      bt.classList.toggle('visible', window.scrollY > 200);
+    });
+
+    /* ─── MOBILE MENU ─── */
+    function toggleMenu() {
+      document.getElementById('nav-menu').classList.toggle('open');
+    }
+
+    /* ─── DARK MODE ─── */
+    let isDark = true;
+    function toggleDark() {
+      isDark = !isDark;
+      document.body.classList.toggle('light', !isDark);
+      document.getElementById('theme-icon').innerHTML = isDark
+        ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+        : '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+    }
+
+    /* ─── REVEAL ─── */
+    function initReveal() {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(r => { r.classList.remove('visible'); obs.observe(r); });
+    }
+
+    /* ─── PROGRESS BARS ─── */
+    function animateProgress() {
+      document.querySelectorAll('.progress-fill').forEach(bar => {
+        const w = bar.style.width; bar.style.width = '0';
+        setTimeout(() => { bar.style.width = w; }, 100);
+      });
+    }
+
+    /* ─── FORM ─── */
+    function submitForm() {
+      const btn = event.currentTarget;
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✓ Demande soumise — En cours de traitement sécurisé';
+      btn.style.background = 'linear-gradient(135deg,#0a7a3a,#065028)';
+      setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 4000);
+    }
+
+    /* ─── INIT ─── */
+    document.addEventListener('DOMContentLoaded', initReveal);
+  </script>
+</body>
+</html>
